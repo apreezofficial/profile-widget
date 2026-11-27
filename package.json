@@ -1,0 +1,27 @@
+{
+  "name": "apreez-profile-widget",
+  "version": "0.1.0",
+  "description": "Embeddable profile and shipped-project card for apreezofficial",
+  "type": "module",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "default": "./index.js"
+    }
+  },
+  "files": ["index.js", "index.d.ts", "README.md", "LICENSE"],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apreezofficial/profile-widget.git"
+  },
+  "homepage": "https://preciousadedokun.com.ng",
+  "license": "MIT"
+}
