@@ -68,7 +68,7 @@ const PROJECTS: ProfileProject[] = [
   { id: "uselessass", name: "UselessAss", url: "https://uselessass.xyz/" },
   { id: "spoweb", name: "Spoweb", url: "https://spoweb.apcodesphere.xyz/" },
   { id: "apanalytics", name: "APAnalytics", url: "https://apanlytics.preciousadedokun.com.ng/" },
-  { id: "zeroth", name: "Zeroth", url: "https://zeroth.apcodesphere.dev" },
+  { id: "zeroth", name: "Zeroth", url: "https://zeroth.apcodesphere.xyz" },
   { id: "kureva", name: "Kureva", url: "https://kureva.pxxl.dev" },
   { id: "devdrawer", name: "DevDrawer", url: "https://devdrawer.xyz" },
 ];
