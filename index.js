@@ -21,6 +21,7 @@ const PROJECTS = [
   { id: "ai", name: "AI", url: "https://ai.apcodesphere.dev" },
   { id: "zeroth", name: "Zeroth", url: "https://zeroth.apcodesphere.dev" },
   { id: "kureva", name: "Kureva", url: "https://kureva.pxxl.dev" },
+  { id: "devdrawer", name: "DevDrawer", url: "https://devdrawer.xyz" },
 ];
 
 const ICONS = {
