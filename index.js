@@ -75,7 +75,7 @@ const ICONS = {
 };
 
 const CSS = `
-.dock{position:fixed;z-index:2147483000;left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));width:min(390px,calc(100vw - 24px));display:flex;flex-direction:column;align-items:flex-start;pointer-events:none}
+.dock{position:fixed;z-index:2147483000;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));width:min(390px,calc(100vw - 24px));display:flex;flex-direction:column;align-items:flex-end;pointer-events:none}
 .panel{width:100%;padding-bottom:8px;pointer-events:auto}.panel[hidden]{display:none}
 .dock .card{width:100%;max-height:min(660px,calc(100dvh - 84px));border-radius:22px}
 .trigger{display:flex;align-items:center;gap:10px;max-width:100%;padding:8px 13px 8px 8px;border:1px solid #594665;border-radius:18px;background:#170f1d;color:#c7b1d3;font:inherit;font-size:14px;cursor:pointer;pointer-events:auto;box-shadow:0 8px 30px #08050b38;text-align:left}
