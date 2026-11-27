@@ -49,7 +49,7 @@ const PROFILE: ProfileDetails = {
   name: "Precious Adedokun",
   handle: "@apreezofficial",
   role: "Full-stack software engineer",
-  bio: "I build open-source apps and random apps on rainy days.",
+  bio: "I build open-source softwares and random shis on rainy days.",
   website: "https://preciousadedokun.com.ng",
   links: [
     { label: "GitHub", url: "https://github.com/apreezofficial", icon: "github" },
