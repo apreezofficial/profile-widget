@@ -273,7 +273,7 @@ function buildCard(shadow: ShadowRoot, options: ProfileWidgetOptions) {
     trigger.append(art);
   }
   const label = node("span", "trigger-label", "Created by ");
-  label.append(node("strong", "", profile.name || PROFILE.name));
+  label.append(node("strong", "", options.profile?.name || "Apcodesphere"));
   const chevron = node("span", "chevron", "⌃");
   chevron.setAttribute("aria-hidden", "true");
   trigger.append(label, chevron);
