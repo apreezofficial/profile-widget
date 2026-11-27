@@ -8,7 +8,7 @@ const PROFILE = {
   website: "https://preciousadedokun.com.ng",
   links: [
     { label: "GitHub", url: "https://github.com/apreezofficial", icon: "github" },
-    { label: "X", url: "https://x.com/apcodesphere", icon: "x" },
+    { label: "X", url: "https://x.com/exdeveloper__", icon: "x" },
     { label: "LinkedIn", url: "https://ng.linkedin.com/in/precious-adedokun-b58221350", icon: "linkedin" },
     { label: "Website", url: "https://preciousadedokun.com.ng", icon: "globe" },
   ],
