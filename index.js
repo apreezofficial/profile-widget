@@ -5,7 +5,6 @@ const PROFILE = {
   handle: "@apreezofficial",
   role: "Full-stack software engineer",
   bio: "I build open-source apps and random apps on rainy days.",
-  avatar: "https://preciousadedokun.com.ng/profile.jpg",
   website: "https://preciousadedokun.com.ng",
   links: [
     { label: "GitHub", url: "https://github.com/apreezofficial", icon: "github" },
@@ -17,55 +16,11 @@ const PROFILE = {
 };
 
 const PROJECTS = [
-  {
-    id: "proforms",
-    name: "ProForms",
-    description: "A flexible form builder and data collection platform for teams and creators.",
-    url: "https://proforms.top",
-    image: "https://preciousadedokun.com.ng/images/proforms/landing.png",
-  },
-  {
-    id: "carswap-ng",
-    name: "CarSwap",
-    description: "A modern vehicle marketplace for buying, selling, and swapping cars.",
-    url: "https://carswap.ng",
-  },
-  {
-    id: "vidodash",
-    name: "VidoDash",
-    description: "A video platform with dedicated apps for viewers and hosts.",
-    url: "https://vidodash.com",
-  },
-  {
-    id: "itrust-rapid-logistics",
-    name: "iTrust Rapid Logistics",
-    description: "A logistics platform with real-time location and delivery workflows.",
-    url: "https://itrustrapidlogistics.com",
-  },
-  {
-    id: "agreonpay",
-    name: "Agreonpay",
-    description: "A farm-to-market agro-fintech platform connecting buyers and producers.",
-    url: "https://agreonpay.com.ng",
-  },
-  {
-    id: "apanalytics",
-    name: "APAnalytics",
-    description: "Website analytics and insights for growing products.",
-    url: "https://apanlytics.preciousadedokun.com.ng",
-  },
-  {
-    id: "donia-luxre",
-    name: "Donia Luxre",
-    description: "A polished online store for luxury hair accessories.",
-    url: "https://donia.preciousadedokun.com.ng",
-  },
-  {
-    id: "zeroth",
-    name: "Zeroth",
-    description: "An on-device AI SDK for private apps.",
-    url: "https://zeroth.apcodesphere.xyz",
-  },
+  { id: "iwasadev", name: "I Was a Dev", url: "https://iwasadev.xyz" },
+  { id: "datum", name: "Datum", url: "https://datum.pxxl.dev" },
+  { id: "ai", name: "AI", url: "https://ai.apcodesphere.dev" },
+  { id: "zeroth", name: "Zeroth", url: "https://zeroth.apcodesphere.dev" },
+  { id: "kureva", name: "Kureva", url: "https://kureva.pxxl.dev" },
 ];
 
 const ICONS = {
@@ -82,7 +37,7 @@ const CSS = `
 .dock .card{width:100%;max-height:min(660px,calc((100dvh - 84px) / .65));border-radius:22px}
 .profile-art{margin:0;flex:none;color:#e0abec;font:3px/1 monospace;letter-spacing:0;text-align:center}
 .trigger{display:flex;align-items:center;gap:10px;max-width:100%;padding:8px 13px 8px 8px;border:1px solid #594665;border-radius:18px;background:#170f1d;color:#c7b1d3;font:inherit;font-size:14px;cursor:pointer;pointer-events:auto;box-shadow:0 8px 30px #08050b38;text-align:left}
-.trigger img{width:32px;height:32px;object-fit:cover;border-radius:50%;border:2px solid #e879f9}.trigger strong{color:#f0a4fa}.trigger:focus-visible{outline:2px solid #e879f9;outline-offset:2px}.chevron{margin-left:4px}.trigger[aria-expanded="true"] .chevron{transform:rotate(180deg)}
+.trigger-art{font-size:1.7px;border:1px solid #e879f9;border-radius:9px;padding:3px}.trigger img{width:32px;height:32px;object-fit:cover;border-radius:50%;border:2px solid #e879f9}.trigger strong{color:#f0a4fa}.trigger:focus-visible{outline:2px solid #e879f9;outline-offset:2px}.chevron{margin-left:4px}.trigger[aria-expanded="true"] .chevron{transform:rotate(180deg)}
 
 :host{display:block;max-width:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#f4edf9;line-height:1.45}
 *{box-sizing:border-box}
@@ -221,15 +176,6 @@ function buildCard(shadow, options) {
   if (visibleProjects.length) {
     for (const project of visibleProjects) {
       const row = externalLink(project.url, "", "project");
-      if (project.image) {
-        const image = node("img", "project-image");
-        image.src = project.image;
-        image.alt = "";
-        image.loading = "lazy";
-        row.append(image);
-      } else {
-        row.append(node("span", "project-image project-placeholder", project.name.slice(0, 1).toUpperCase()));
-      }
       const copy = node("span", "project-copy");
       copy.append(node("span", "project-name", project.name));
       if (project.description) copy.append(node("span", "project-description", project.description));
@@ -250,11 +196,7 @@ function buildCard(shadow, options) {
   if (profileUrl) footer.append(externalLink(profileUrl, "See everything →", "all"));
   if (profile.website) {
     const made = externalLink(profile.website, "", "made");
-    const mark = node("img");
-    mark.src = safeUrl(profile.avatar) || "";
-    mark.alt = "";
-    mark.loading = "lazy";
-    made.append(mark, document.createTextNode("Made by "), node("strong", "", profile.name || PROFILE.name));
+    made.append(document.createTextNode("Made by "), node("strong", "", profile.name || PROFILE.name));
     footer.append(made);
   }
   card.append(footer);
@@ -270,6 +212,10 @@ function buildCard(shadow, options) {
   if (photo) {
     photo.alt = "";
     trigger.append(photo);
+  } else {
+    const art = node("pre", "profile-art trigger-art", PROFILE_ASCII);
+    art.setAttribute("aria-hidden", "true");
+    trigger.append(art);
   }
   const label = node("span", "trigger-label", "Created by ");
   label.append(node("strong", "", profile.name || PROFILE.name));
