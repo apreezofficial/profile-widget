@@ -1,6 +1,51 @@
+export interface ProfileLink {
+  label: string;
+  url: string;
+  icon?: "github" | "x" | "linkedin" | "globe";
+}
+
+export interface ProfileProject {
+  id?: string;
+  name: string;
+  description?: string;
+  url: string;
+  image?: string;
+  source?: string;
+  githubUrl?: string;
+}
+
+export interface ProfileDetails {
+  name?: string;
+  handle?: string;
+  role?: string;
+  bio?: string;
+  avatar?: string;
+  website?: string;
+  profileUrl?: string;
+  links?: ProfileLink[];
+}
+
+export interface ProfileWidgetOptions {
+  /** Existing element or CSS selector where the card should render. Defaults to a new body-level widget. */
+  target?: string | Element;
+  /** 1-based index, project id, or project name to omit from the shipped-project list. */
+  project?: number | string;
+  currenturl?: string;
+  profile?: Partial<ProfileDetails>;
+  projects?: ProfileProject[];
+  accent?: string;
+  id?: string;
+}
+
+export interface ProfileWidgetController {
+  element: Element;
+  update(options?: Partial<ProfileWidgetOptions>): void;
+  destroy(): void;
+}
+
 const PROFILE_ASCII = "          ###%%%%@%***\n       ####%%*-..:+##*+=#\n    #**###%%-...--::##+=#%%#\n   %%%%%%%@# -:-+=+:=%*+%@%%%\n  *******##+-:::+::=+%**######\n --------=+-:=+-+**=+++==------\n=++++++++++*=.::=-:=#***++++++++\n==+++++***+=*-  ::=%--+******+++\n=-=***+--.  +%+.:+%#    ..:=**++\n=-=+#-  ........:.:..:::... :#*+\n =-+-  :-:---..:=-.::-=-:..: **\n  ==   :-:---:.-=-::--=-::...*\n   +.  .-::--..-=--::----:. .\n    .  .:::::..---::-::--:\n       .::::..:--:.:=::--\n          ::..:--:.--.";
 
-const PROFILE = {
+const PROFILE: ProfileDetails = {
   name: "Precious Adedokun",
   handle: "@apreezofficial",
   role: "Full-stack software engineer",
@@ -15,10 +60,14 @@ const PROFILE = {
   profileUrl: "https://preciousadedokun.com.ng",
 };
 
-const PROJECTS = [
+const PROJECTS: ProfileProject[] = [
+  { id: "voieform", name: "Voieform", url: "https://voieform.com" },
   { id: "iwasadev", name: "I Was a Dev", url: "https://iwasadev.xyz" },
   { id: "datum", name: "Datum", url: "https://datum.pxxl.dev" },
-  { id: "ai", name: "AI", url: "https://ai.apcodesphere.dev" },
+  { id: "aidetector", name: "AI Detector", url: "https://aidetector.apcodesphere.xyz/" },
+  { id: "uselessass", name: "UselessAss", url: "https://uselessass.xyz/" },
+  { id: "spoweb", name: "Spoweb", url: "https://spoweb.apcodesphere.xyz/" },
+  { id: "apanalytics", name: "APAnalytics", url: "https://apanlytics.preciousadedokun.com.ng/" },
   { id: "zeroth", name: "Zeroth", url: "https://zeroth.apcodesphere.dev" },
   { id: "kureva", name: "Kureva", url: "https://kureva.pxxl.dev" },
   { id: "devdrawer", name: "DevDrawer", url: "https://devdrawer.xyz" },
@@ -51,12 +100,12 @@ const CSS = `
 .bio{margin:24px 0 20px;color:#d1c2d8;font-size:19px;line-height:1.55;white-space:pre-wrap}
 .socials{display:flex;flex-wrap:wrap;gap:10px}.social{display:grid;place-items:center;width:62px;height:62px;border:1px solid #32253a;border-radius:18px;background:#24192b;color:#f5eafa;text-decoration:none;transition:transform .18s ease,border-color .18s ease,background .18s ease}.social:hover{transform:translateY(-3px);border-color:#6f527a;background:#302138}.social svg,.project-link svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.social[data-icon="x"] svg,.social[data-icon="github"] svg{fill:currentColor;stroke:none}
 .feature{margin-top:22px;padding:16px;border:1px solid #392b42;border-radius:22px;background:#201626}.feature-label,.section-label{color:#b9a3c3;font-size:12px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.feature-image{display:block;width:100%;height:150px;margin:12px 0 14px;border-radius:14px;object-fit:cover;background:#302238}.feature-title{margin:10px 0 4px;font-size:21px;font-weight:750;letter-spacing:-.02em}.feature-description{margin:0 0 12px;color:#baa7c2;font-size:15px}.feature-actions{display:flex;gap:10px;flex-wrap:wrap}.feature-actions a{color:#f0b2fa;font-size:14px;font-weight:700;text-decoration:none}.feature-actions a:hover{text-decoration:underline}
-.projects{margin-top:26px;padding-top:22px;border-top:1px solid #44354b}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.section-label{margin:0}.count{color:#b9a3c3;font-size:14px;font-weight:750}.project{display:flex;align-items:center;gap:14px;padding:10px 0;color:inherit;text-decoration:none;min-width:0}.project:hover .project-name{color:#f0b2fa}.project-image{width:58px;height:58px;flex:none;border-radius:15px;object-fit:cover;background:#32263a}.project-placeholder{display:grid;place-items:center;color:#f0b2fa;font-size:23px;font-weight:800}.project-copy{min-width:0;flex:1}.project-name{display:block;overflow:hidden;color:#f5edf9;font-size:18px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}.project-description{display:block;overflow:hidden;margin-top:2px;color:#b9a6c1;font-size:14px;text-overflow:ellipsis;white-space:nowrap}.project-link{color:#a995b3}.project-link svg{width:20px;height:20px}
+.projects-note{margin:0 0 12px;color:#d1c2d8;font-size:14px}.portfolio-link{color:#f0a4fa}.projects{margin-top:26px;padding-top:22px;border-top:1px solid #44354b}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.section-label{margin:0}.count{color:#b9a3c3;font-size:14px;font-weight:750}.project{display:flex;align-items:center;gap:14px;padding:10px 0;color:inherit;text-decoration:none;min-width:0}.project:hover .project-name{color:#f0b2fa}.project-image{width:58px;height:58px;flex:none;border-radius:15px;object-fit:cover;background:#32263a}.project-placeholder{display:grid;place-items:center;color:#f0b2fa;font-size:23px;font-weight:800}.project-copy{min-width:0;flex:1}.project-name{display:block;overflow:hidden;color:#f5edf9;font-size:18px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}.project-description{display:block;overflow:hidden;margin-top:2px;color:#b9a6c1;font-size:14px;text-overflow:ellipsis;white-space:nowrap}.project-link{color:#a995b3}.project-link svg{width:20px;height:20px}
 .footer{position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;padding:15px 28px;border-top:1px solid #44354b;background:#170f1df2;backdrop-filter:blur(12px)}.all{color:#f0a4fa;font-weight:750;text-decoration:none}.all:hover{text-decoration:underline}.made{display:flex;align-items:center;gap:8px;color:#b9a6c1;font-size:14px;text-decoration:none;white-space:nowrap}.made img{width:22px;height:22px;border-radius:50%}.empty{padding:16px;color:#b9a6c1;font-size:14px}
 @media(max-width:440px){.card{border-radius:24px}.content{padding:20px 18px 0}.avatar{width:62px;height:62px}.name{font-size:21px}.handle{font-size:15px}.bio{font-size:17px;margin:20px 0 16px}.social{width:54px;height:54px;border-radius:16px}.project-image{width:50px;height:50px}.project-name{font-size:16px}.project-description{font-size:13px}.footer{padding:13px 18px}}
 `;
 
-function safeUrl(value) {
+function safeUrl(value: unknown) {
   if (typeof value !== "string" || !value.trim()) return "";
   try {
     const url = new URL(value, globalThis.location?.href || "https://example.com");
@@ -66,14 +115,14 @@ function safeUrl(value) {
   }
 }
 
-function node(tag, className, text) {
+function node<K extends keyof HTMLElementTagNameMap>(tag: K, className?: string, text?: string) {
   const element = document.createElement(tag);
   if (className) element.className = className;
   if (text != null) element.textContent = String(text);
   return element;
 }
 
-function externalLink(url, label, className) {
+function externalLink(url: string, label: string, className: string) {
   const link = node("a", className, label);
   link.href = safeUrl(url) || "#";
   link.target = "_blank";
@@ -81,7 +130,7 @@ function externalLink(url, label, className) {
   return link;
 }
 
-function icon(name) {
+function icon(name: keyof typeof ICONS) {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("aria-hidden", "true");
@@ -89,7 +138,7 @@ function icon(name) {
   return svg;
 }
 
-function normalizeProjects(value) {
+function normalizeProjects(value?: ProfileProject[]) {
   const projects = Array.isArray(value) ? value : PROJECTS;
   return projects.filter((project) => project && project.name && safeUrl(project.url)).map((project, index) => ({
     id: String(project.id ?? index + 1),
@@ -101,7 +150,7 @@ function normalizeProjects(value) {
   }));
 }
 
-function pickProject(projects, choice) {
+function pickProject(projects: ReturnType<typeof normalizeProjects>, choice?: number | string) {
   if (typeof choice === "number" && Number.isInteger(choice)) return projects[choice - 1] || null;
   if (typeof choice === "string" && choice.trim()) {
     const normalized = choice.trim().toLowerCase();
@@ -110,12 +159,12 @@ function pickProject(projects, choice) {
   return null;
 }
 
-function buildCard(shadow, options) {
+function buildCard(shadow: ShadowRoot, options: ProfileWidgetOptions) {
   const profile = { ...PROFILE, ...(options.profile || {}) };
   const projects = normalizeProjects(options.projects);
   const current = pickProject(projects, options.project);
   const currentUrl = safeUrl(options.currenturl ?? new URLSearchParams(location.search).get("currenturl") ?? location.href);
-  const site = (url) => url ? new URL(url).hostname.replace(/^www\./, "") : "";
+  const site = (url: string) => url ? new URL(url).hostname.replace(/^www\./, "") : "";
   const visibleProjects = projects.filter((project) =>
     project.id !== current?.id && site(project.url) !== site(currentUrl)
   );
@@ -159,7 +208,7 @@ function buildCard(shadow, options) {
     const href = safeUrl(link.url);
     if (!href) continue;
     const anchor = externalLink(href, "", "social");
-    const iconName = ICONS[link.icon] ? link.icon : "globe";
+    const iconName = link.icon && Object.hasOwn(ICONS, link.icon) ? link.icon : "globe";
     anchor.dataset.icon = iconName;
     anchor.setAttribute("aria-label", link.label || iconName);
     anchor.title = link.label || iconName;
@@ -173,6 +222,11 @@ function buildCard(shadow, options) {
   header.append(node("h3", "section-label", "Also shipped"));
   header.append(node("span", "count", String(visibleProjects.length)));
   section.append(header);
+  if (!options.projects) {
+    const note = node("p", "projects-note", "Side quest projects I made for fun. For my real-world projects, check ");
+    note.append(externalLink(PROFILE.website!, "my portfolio ↗", "portfolio-link"));
+    section.append(note);
+  }
 
   if (visibleProjects.length) {
     for (const project of visibleProjects) {
@@ -210,7 +264,7 @@ function buildCard(shadow, options) {
   trigger.type = "button";
   trigger.setAttribute("aria-controls", panel.id);
   trigger.setAttribute("aria-expanded", "false");
-  if (photo) {
+  if (photo instanceof HTMLImageElement) {
     photo.alt = "";
     trigger.append(photo);
   } else {
@@ -223,7 +277,7 @@ function buildCard(shadow, options) {
   const chevron = node("span", "chevron", "⌃");
   chevron.setAttribute("aria-hidden", "true");
   trigger.append(label, chevron);
-  const show = (open) => {
+  const show = (open: boolean) => {
     panel.hidden = !open;
     trigger.setAttribute("aria-expanded", String(open));
   };
@@ -239,7 +293,7 @@ function buildCard(shadow, options) {
     show(pinned);
   });
   dock.addEventListener("focusout", (event) => {
-    if (!dock.contains(event.relatedTarget)) {
+    if (!(event.relatedTarget instanceof Node && dock.contains(event.relatedTarget))) {
       pinned = false;
       show(false);
     }
@@ -261,7 +315,7 @@ function buildCard(shadow, options) {
  * @param {{target?: string|Element, project?: number|string, profile?: object, projects?: object[], accent?: string}} options
  * @returns {{element: Element, update: Function, destroy: Function}}
  */
-export function mountProfileWidget(options = {}) {
+export function mountProfileWidget(options: ProfileWidgetOptions = {}): ProfileWidgetController {
   if (typeof document === "undefined") throw new Error("The profile widget can only be mounted in a browser.");
   const target = typeof options.target === "string"
     ? document.querySelector(options.target)

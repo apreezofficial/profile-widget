@@ -24,7 +24,7 @@ The current project is omitted from “Also shipped.” Pass `currenturl` to mat
 ```js
 mountProfileWidget({
   target: "#profile-card",
-  project: "proforms",
+  project: "project-one",
   accent: "#d946ef",
   profile: {
     name: "Your Name",
@@ -60,7 +60,7 @@ MIT
 
 ## Plain HTML
 
-Host the package files together and add this tag:
+Run `npm run build`, host the files from `dist/` together and add this tag:
 
 ```html
 <script type="module" src="/widget/embed.js?currenturl=https%3A%2F%2Fzeroth.apcodesphere.xyz"></script>
