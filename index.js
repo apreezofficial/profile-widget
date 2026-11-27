@@ -1,3 +1,5 @@
+const PROFILE_ASCII = "          ###%%%%@%***\n       ####%%*-..:+##*+=#\n    #**###%%-...--::##+=#%%#\n   %%%%%%%@# -:-+=+:=%*+%@%%%\n  *******##+-:::+::=+%**######\n --------=+-:=+-+**=+++==------\n=++++++++++*=.::=-:=#***++++++++\n==+++++***+=*-  ::=%--+******+++\n=-=***+--.  +%+.:+%#    ..:=**++\n=-=+#-  ........:.:..:::... :#*+\n =-+-  :-:---..:=-.::-=-:..: **\n  ==   :-:---:.-=-::--=-::...*\n   +.  .-::--..-=--::----:. .\n    .  .:::::..---::-::--:\n       .::::..:--:.:=::--\n          ::..:--:.--.";
+
 const PROFILE = {
   name: "Precious Adedokun",
   handle: "@apreezofficial",
@@ -76,8 +78,9 @@ const ICONS = {
 
 const CSS = `
 .dock{position:fixed;z-index:2147483000;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));width:min(390px,calc(100vw - 24px));display:flex;flex-direction:column;align-items:flex-end;pointer-events:none}
-.panel{width:100%;padding-bottom:8px;pointer-events:auto}.panel[hidden]{display:none}
-.dock .card{width:100%;max-height:min(660px,calc(100dvh - 84px));border-radius:22px}
+.panel{zoom:.65;width:min(390px,calc((100vw - 24px) / .65));padding-bottom:8px;pointer-events:auto}.panel[hidden]{display:none}
+.dock .card{width:100%;max-height:min(660px,calc((100dvh - 84px) / .65));border-radius:22px}
+.profile-art{margin:0;flex:none;color:#e0abec;font:3px/1 monospace;letter-spacing:0;text-align:center}
 .trigger{display:flex;align-items:center;gap:10px;max-width:100%;padding:8px 13px 8px 8px;border:1px solid #594665;border-radius:18px;background:#170f1d;color:#c7b1d3;font:inherit;font-size:14px;cursor:pointer;pointer-events:auto;box-shadow:0 8px 30px #08050b38;text-align:left}
 .trigger img{width:32px;height:32px;object-fit:cover;border-radius:50%;border:2px solid #e879f9}.trigger strong{color:#f0a4fa}.trigger:focus-visible{outline:2px solid #e879f9;outline-offset:2px}.chevron{margin-left:4px}.trigger[aria-expanded="true"] .chevron{transform:rotate(180deg)}
 
@@ -179,6 +182,12 @@ function buildCard(shadow, options) {
     avatar.loading = "lazy";
     person.append(avatar);
   }
+  const photo = person.querySelector("img")?.cloneNode();
+  if (!options.profile?.avatar) {
+    const art = node("pre", "profile-art", PROFILE_ASCII);
+    art.setAttribute("aria-hidden", "true");
+    person.replaceChildren(art);
+  }
   const identity = node("div", "identity");
   identity.append(node("h2", "name", profile.name || PROFILE.name));
   if (profile.role) identity.append(node("p", "role", profile.role));
@@ -258,7 +267,6 @@ function buildCard(shadow, options) {
   trigger.type = "button";
   trigger.setAttribute("aria-controls", panel.id);
   trigger.setAttribute("aria-expanded", "false");
-  const photo = person.querySelector("img")?.cloneNode();
   if (photo) {
     photo.alt = "";
     trigger.append(photo);
