@@ -1,6 +1,6 @@
 # Apreez Profile Widget
 
-An embeddable profile card with social links, a featured shipped project, and an “Also shipped” list. The widget styles itself inside a Shadow DOM so it does not inherit or overwrite the host page's CSS.
+An embeddable profile card with social links, a floating “Created by” button and an “Also shipped” list. The widget styles itself inside a Shadow DOM so it does not inherit or overwrite the host page's CSS.
 
 ## Install from GitHub
 
@@ -13,11 +13,11 @@ import { mountProfileWidget } from "apreez-profile-widget";
 
 mountProfileWidget({
   target: "#profile-card",
-  project: 1, // 1-based project number, or a project id/name such as "proforms"
+  project: 1, // 1-based current project number, or a project id/name such as "proforms"
 });
 ```
 
-The selected project appears as the featured project. The other projects remain in the “Also shipped” list. By default, the widget uses the Apreez profile and shipped-project list bundled with the package.
+The current project is omitted from “Also shipped.” Pass `currenturl` to match by hostname, or let the widget read `?currenturl=` from the page and fall back to the page URL. By default, the widget uses the Apreez profile and shipped-project list bundled with the package.
 
 ## Customize it
 
@@ -56,3 +56,12 @@ GitHub profile README Markdown does not execute npm JavaScript or embed iframes.
 ## License
 
 MIT
+
+
+## Plain HTML
+
+Host the package files together and add this tag:
+
+```html
+<script type="module" src="/widget/embed.js?currenturl=https%3A%2F%2Fzeroth.apcodesphere.xyz"></script>
+```

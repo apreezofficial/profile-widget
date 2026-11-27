@@ -2,7 +2,7 @@ const PROFILE = {
   name: "Precious Adedokun",
   handle: "@apreezofficial",
   role: "Full-stack software engineer",
-  bio: "I build useful products and web platforms that help businesses grow, scale, and make money.",
+  bio: "I build open-source apps and random apps on rainy days.",
   avatar: "https://preciousadedokun.com.ng/profile.jpg",
   website: "https://preciousadedokun.com.ng",
   links: [
@@ -58,6 +58,12 @@ const PROJECTS = [
     description: "A polished online store for luxury hair accessories.",
     url: "https://donia.preciousadedokun.com.ng",
   },
+  {
+    id: "zeroth",
+    name: "Zeroth",
+    description: "An on-device AI SDK for private apps.",
+    url: "https://zeroth.apcodesphere.xyz",
+  },
 ];
 
 const ICONS = {
@@ -69,6 +75,12 @@ const ICONS = {
 };
 
 const CSS = `
+.dock{position:fixed;z-index:2147483000;left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));width:min(390px,calc(100vw - 24px));display:flex;flex-direction:column;align-items:flex-start;pointer-events:none}
+.panel{width:100%;padding-bottom:8px;pointer-events:auto}.panel[hidden]{display:none}
+.dock .card{width:100%;max-height:min(660px,calc(100dvh - 84px));border-radius:22px}
+.trigger{display:flex;align-items:center;gap:10px;max-width:100%;padding:8px 13px 8px 8px;border:1px solid #594665;border-radius:18px;background:#170f1d;color:#c7b1d3;font:inherit;font-size:14px;cursor:pointer;pointer-events:auto;box-shadow:0 8px 30px #08050b38;text-align:left}
+.trigger img{width:32px;height:32px;object-fit:cover;border-radius:50%;border:2px solid #e879f9}.trigger strong{color:#f0a4fa}.trigger:focus-visible{outline:2px solid #e879f9;outline-offset:2px}.chevron{margin-left:4px}.trigger[aria-expanded="true"] .chevron{transform:rotate(180deg)}
+
 :host{display:block;max-width:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#f4edf9;line-height:1.45}
 *{box-sizing:border-box}
 .card{--accent:var(--apw-accent,#e879f9);position:relative;isolation:isolate;display:flex;flex-direction:column;width:min(100%,560px);max-height:min(900px,100vh);overflow:hidden;border:1px solid #43344c;border-radius:32px;background:#170f1d;box-shadow:0 24px 60px #08050b38}
@@ -142,8 +154,12 @@ function pickProject(projects, choice) {
 function buildCard(shadow, options) {
   const profile = { ...PROFILE, ...(options.profile || {}) };
   const projects = normalizeProjects(options.projects);
-  const featured = pickProject(projects, options.project);
-  const visibleProjects = featured ? projects.filter((project) => project.id !== featured.id) : projects;
+  const current = pickProject(projects, options.project);
+  const currentUrl = safeUrl(options.currenturl ?? new URLSearchParams(location.search).get("currenturl") ?? location.href);
+  const site = (url) => url ? new URL(url).hostname.replace(/^www\./, "") : "";
+  const visibleProjects = projects.filter((project) =>
+    project.id !== current?.id && site(project.url) !== site(currentUrl)
+  );
 
   shadow.replaceChildren();
   const style = node("style");
@@ -187,28 +203,9 @@ function buildCard(shadow, options) {
   }
   if (socials.childElementCount) content.append(socials);
 
-  if (featured) {
-    const feature = node("section", "feature");
-    feature.append(node("span", "feature-label", "Featured project"));
-    if (featured.image) {
-      const image = node("img", "feature-image");
-      image.src = featured.image;
-      image.alt = `${featured.name} project preview`;
-      image.loading = "lazy";
-      feature.append(image);
-    }
-    feature.append(node("h3", "feature-title", featured.name));
-    if (featured.description) feature.append(node("p", "feature-description", featured.description));
-    const actions = node("div", "feature-actions");
-    actions.append(externalLink(featured.url, "Visit project ↗", ""));
-    if (featured.source) actions.append(externalLink(featured.source, "Source code ↗", ""));
-    feature.append(actions);
-    content.append(feature);
-  }
-
   const section = node("section", "projects");
   const header = node("div", "section-head");
-  header.append(node("h3", "section-label", featured ? "Also shipped" : "Also shipped"));
+  header.append(node("h3", "section-label", "Also shipped"));
   header.append(node("span", "count", String(visibleProjects.length)));
   section.append(header);
 
@@ -252,7 +249,55 @@ function buildCard(shadow, options) {
     footer.append(made);
   }
   card.append(footer);
-  shadow.append(card);
+  const dock = node("div", "dock");
+  const panel = node("div", "panel");
+  panel.id = "profile-panel";
+  panel.hidden = true;
+  panel.append(card);
+  const trigger = node("button", "trigger");
+  trigger.type = "button";
+  trigger.setAttribute("aria-controls", panel.id);
+  trigger.setAttribute("aria-expanded", "false");
+  const photo = person.querySelector("img")?.cloneNode();
+  if (photo) {
+    photo.alt = "";
+    trigger.append(photo);
+  }
+  const label = node("span", "trigger-label", "Created by ");
+  label.append(node("strong", "", profile.name || PROFILE.name));
+  const chevron = node("span", "chevron", "⌃");
+  chevron.setAttribute("aria-hidden", "true");
+  trigger.append(label, chevron);
+  const show = (open) => {
+    panel.hidden = !open;
+    trigger.setAttribute("aria-expanded", String(open));
+  };
+  let pinned = false;
+  dock.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "mouse") show(true);
+  });
+  dock.addEventListener("pointerleave", () => {
+    if (!pinned && !dock.matches(":focus-within")) show(false);
+  });
+  trigger.addEventListener("click", () => {
+    pinned = !pinned;
+    show(pinned);
+  });
+  dock.addEventListener("focusout", (event) => {
+    if (!dock.contains(event.relatedTarget)) {
+      pinned = false;
+      show(false);
+    }
+  });
+  dock.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !panel.hidden) {
+      pinned = false;
+      trigger.focus();
+      show(false);
+    }
+  });
+  dock.append(panel, trigger);
+  shadow.append(dock);
   return card;
 }
 

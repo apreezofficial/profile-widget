@@ -28,8 +28,9 @@ export interface ProfileDetails {
 export interface ProfileWidgetOptions {
   /** Existing element or CSS selector where the card should render. Defaults to a new body-level widget. */
   target?: string | Element;
-  /** 1-based index, project id, or project name to feature above the shipped-project list. */
+  /** 1-based index, project id, or project name to omit from the shipped-project list. */
   project?: number | string;
+  currenturl?: string;
   profile?: Partial<ProfileDetails>;
   projects?: ProfileProject[];
   accent?: string;

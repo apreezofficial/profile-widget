@@ -1,6 +1,6 @@
 {
   "name": "apreez-profile-widget",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Embeddable profile and shipped-project card for apreezofficial",
   "type": "module",
   "main": "./index.js",
@@ -13,7 +13,13 @@
       "default": "./index.js"
     }
   },
-  "files": ["index.js", "index.d.ts", "README.md", "LICENSE"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE",
+    "embed.js"
+  ],
   "sideEffects": false,
   "engines": {
     "node": ">=18"
